@@ -44,7 +44,7 @@ Initially, the planned period for the A/B test is 1 week. So, the A/A test is in
 - `monte_carlo_analysis.ipynb` — a Jupyter notebook with the analysis
 
 ## 🛠 To launch the project on your computer
-1. Copy the `.env.example` file from the root [ab_tests](ab_tests/) repo and fill it in your `.env` file with your data to access the DB
+1. Copy the `.env.example` file from the root [ab_tests](https://github.com/TatianaTkacheva/ab_tests) repo and fill it in your `.env` file with your data to access the DB
 2. Install the requirements: `pip install -r requirements.txt`
 3. Launch the Jupyter: `jupyter notebook`
 4. Open the `monte_carlo_analysis.ipynb` file and launch the chunks
