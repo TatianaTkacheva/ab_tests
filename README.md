@@ -41,7 +41,7 @@ A key metric — **CTR** (likes/views).
 - Analysis of the results and recommendations for further steps
 
 **Key results:**
-- The analysis shows the potential test power lower than the conventional benchmark of 80% with different parameters of the test (sample size, test period) and algorithm modifications.
+- ❌ The analysis shows the potential test power lower than the conventional benchmark of 80% with different parameters of the test (sample size, test period) and algorithm modifications.
 
 **[→ To check the project](monte_carlo_aa_test/)**  
 *Stack: Python, pandas, numpy, scipy, statsmodels, pandahouse*
