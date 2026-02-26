@@ -1,54 +1,49 @@
-# 📌 Контекст
+# CTR analysis for the new algorithm of post recommendation
 
-У нас есть приложение с новостной лентой, где вместе с командой дата сайентистов мы провели несколько экспериментов.
+## 📌 Context
 
-Задача экспериментов - проверить эффективность новых алгоритмов рекомендаций в новостной ленте. Здесь приведены результаты анализа эксперимента для алгоритма, при котором показываем пользователю посты, наиболее похожие на те, **которые он лайкал**.
+In our app, we have a news feed, where we conducted several experiments.
 
-В качестве метрики эффективности был выбран CTR из просмотров в лайки.
+The goal of these experiments was to test the effectiveness of new news feed recommendation algorithms. In this projects, I show the analysis of the experiment for the algorithm that shows users the most similar posts to those **they have already liked**.
 
-**Почему мы взяли именно CTR?**
+CTR from views to likes was chosen as the performance metric.
 
-* Это довольно стандартная метрика;
-* Есть явное действие, которое показывает заинтересованность – лайк.
+**Why CTR?**
 
-Эксперимент проходил с 2025-11-21 по 2025-11-27 включительно. 
+* This is quite a conventional metric;
+* It implies an obvious actions that show the interest in the posts - likes.
 
-**Наши группы A/B-тестов**:
+The main **hypothesis** is that **the new algorithm will lead to a change in the CTR** (assumingly, to an increase, but we will test a two-sided effect).
 
-* 1 - контрольная группа 
+## 📊 Data
+- **Source:** ClickHouse, `feed_actions` table
+- **A/B test period:** November 21-27, 2025
+- **Groups:** 
+  - 1 — control (old algorithm)
+  - 2 — test (new algorithm, "Showing the posts similar to already liked ones")
 
-* 2 - тестовая группа для алгоритма "Показываем посты, похожие на лайкнутые"
+## 🔍 Analysis steps
+1. A/A test to ensure there is no difference in groups before the experiment
+    * Downloading the data via `pandahouse`
+    * Calculating the CTR for each user: `likes / views`
+    * Checking the distributions (visualizations + tests)
+2. A/B test analysis
+    * Downloading the data via `pandahouse`
+    * Calculating the CTR for each user: `likes / views`
+    * Checking the distributions (visualizations + tests)
+    * Applying the Mann-Whitney U test to compare the groups
+    * T-test and Mann-Whitney U test for a smoothed CTR (+ visualization)
+    * Bootstrap (+ visualization)
+    * Bucket transformation (+ visualization of distributions)
+3. Summary of the results and recommendations
 
-Основная **гипотеза** заключается в том, что **новый алгоритм во 2-й группе приведёт к изменению CTR**.
+## 📎 Files
+- `ctr_analysis.ipynb` — a notebook with the analysis
 
-## 📊 Данные
-- **Источник:** ClickHouse, таблица `feed_actions`
-- **Период эксперимента:** 21-27 ноября 2025
-- **Группы:** 
-  - 1 — контроль (старый алгоритм)
-  - 2 — тест (новый алгоритм)
+## 🛠 To launch the project on your computer
+1. Copy `.env.example` file from the root [ab_tests](https://github.com/TatianaTkacheva/ab_tests/tree/main) repo to your `.env` file and fill it in with your data to access the DB
+2. Install the requirements: `pip install -r requirements.txt`
+3. Launch the Jupyter: `jupyter notebook`
+4. Open the `ctr_analysis.ipynb` file and launch the chunks
 
-## 🔍 Ход анализа
-1. Реализация АА-теста для уточнения отсутствия эффекта до эксперимента 
-    * Загрузка данных через `pandahouse`
-    * Расчёт CTR для каждого пользователя: `likes / views`
-    * Проверка распределений (визуально + тесты)
-2. Анализ результатов AB-теста
-    * Загрузка данных через `pandahouse`
-    * Расчёт CTR для каждого пользователя: `likes / views`
-    * Проверка распределений (визуально + тесты)
-    * Применение Mann-Whitney U test для сравнения групп
-    * T-test и Mann-Whitney U test на сглаженном CTR (+ визуализация)
-    * Bootstrap (+ визуализация)
-    * Бакетное преобразование (+ визуализация распределений)
-3. Резюме результатов и рекомендации
-
-## 📎 Файлы
-- `ctr_analysis.ipynb` — ноутбук с полным анализом
-
-## 🛠 Воспроизведение
-1. Скопировать `.env.example` из корня репозитория в `.env` и заполнить свои данные
-2. Установить зависимости: `pip install -r requirements.txt`
-3. Запустить Jupyter: `jupyter notebook`
-4. Открыть `ctr_analysis.ipynb` и выполнить все ячейки
-
+I appreciate any feedback, so if you have thoughts to share, please don't hesitate to contact me. You may find the available channels to connect with me on my [welcome page](https://github.com/TatianaTkacheva) 👈.
