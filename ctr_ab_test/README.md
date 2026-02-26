@@ -47,5 +47,5 @@ The main **hypothesis** is that **the new algorithm will lead to a change in the
 4. Open the `ctr_analysis.ipynb` file and launch the chunks
 
 
-
+# Feedback
 💡 I appreciate any feedback, so if you have thoughts to share, please don't hesitate to contact me. You may find the available channels to connect with me on my [welcome page](https://github.com/TatianaTkacheva) 👈.
