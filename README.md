@@ -37,7 +37,7 @@ A key metric — **CTR** (likes/views).
 **What has been done:**
 - Downloading the data from a ClickHouse DB (via pandahouse in Python)
 - Calculating the users' CTR
-- Simulating A/A tests to calculate the test power for different algorith and experiment modifications
+- Simulating A/A tests to calculate the test power for different algorithm and experiment modifications
 - Analysis of the results and recommendations for further steps
 
 **Key results:**
