@@ -1,52 +1,50 @@
-# Синтетический AA-тест методом Монте-Карло
+# Synthetic A/A test with a Monte Carlo approach
 
-## Контекст
+## Context
 
-ML-команда планирует выкатывать новый алгоритм, рекомендующий нашим пользователям интересные посты. Предполагается следующее:
+Our ML team plans to launch a new algorithm, which will recommend the users posts based on their interests. The initial assumptions are as follows:
 
-* Алгоритм добавляет пользователям 1-2 просмотра
-* Вероятность того, что он сработает, составляет 90%
-* Если у пользователя меньше 50 просмотров, то алгоритм не сработает
+* The algorithm adds 1-2 more views for each user
+* The probability of the algorithm to have an effect is 90%
+* The algorithm will have an effect only for users with 50+ views
 
-Предположительно, увеличение числа просмотров приведёт и к увеличению лайков на пользователя. Встал вопрос: **сможем ли мы обнаружить различия в среднем количестве лайков на пользователя?** 
+We assume that increase in views will lead to the increase of post likes. Then, the question is: **will we find any differences in the average likes count per user after launching this algorithm?** 
 
-Чтобы ответить на этот вопрос до запуска AB-теста, я провела симуляцию Монте-Карло на исторических данных (АА-тест).
+To answer the question before launching the A/B test, I conducted a series of A/A simulations.
 
-Срок проведения потенциального AB-теста - 1 неделя. Поэтому и АА-тест будем считать изначально для срока 1 неделя.
+Initially, the planned period for the A/B test is 1 week. So, the A/A test is initially conducted for 1 week period samples. The analysis also includes simulations for a longer period.
 
-**Вводные данные для анализа**:
 
-* Для симуляции просмотров ленты и пользовательских CTR я беру распределения на основе исторических данных (до запуска эксперимента).
+**Important assumptions**: 
+* we assume that the WAU for 1 week of A/B testing in our app will be the same as for the A/A test period. Also, we plan to split users into two groups at a 50/50 ratio. So, the sample size for each group is calculated based on this assumptions.
 
-* **Важное допущение**: предполагаем, что за неделю AB-теста в наш сервис зайдёт столько же пользователей, сколько зашло в период АА-теста. При этом мы планируем разбивать пользователей на две группы в соотношении 50/50. Отталкиваясь от этого, считаю размер выборки для каждой группы.
+* **Formula for the algorithm effect**: based on the data from the ML team, I simulate the effect of the algorithm on views as follows: *test_group_metrics + ((1 + np.binomial(n=1, p=0.5, size=sample_size)) * np.binomial(n=1, p=0.9, size=sample_size) * (test_group_metrics >= 50))*
 
-* По данным от ML-команды эффект алгоритма на просмотры имитируем следующим образом: *метрики_в_тестовой_группе + ((1 + np.binomial(n=1, p=0.5, size=размер_выборки)) * np.binomial(n=1, p=0.9, size=размер_выборки) * (метрики_в_тестовой_группе >= 50))*
+* The number of simulations is 20000.
 
-* Зададим не меньше 20000 симуляций.
+* The final t-test is conducted with the Welch correction for unequal variances. The alpha-level is conventionally 0.05.
 
-* Итоговый t-test провожу с поправкой Уэлча на неравенство дисперсий. Уровень значимости стандартно ставлю 0.05.
+## 📊 Data
+- **Source:** ClickHouse, `feed_actions` table
+- **Initial A/A test period:** November 14-20, 2025
 
-## 📊 Данные
-- **Источник:** ClickHouse, таблица `feed_actions`
-- **Изначальный период для AA-теста:** 14-20 ноября 2025
+## 🔍 Analysis steps
+1. Downloading the data via `pandahouse`
+2. Calculating the overall sample
+3. Calculating the sample for each group (50/50 split)
+4. Calculating the CTR for each user: `likes / views`
+5. Conducting the simulation to find the test power for initial parameters
+6. Calculating the power for different modifications of the algorithm and parameters of the experiment:
+    * Finding the test power for an algorithm effect for users with **30+ views**
+    * Finding the test power for a test period of **2 weeks**
+    * Finding the test power for a narrow sample (only those users potentially affected by the algorithm)
+7. Summarizing the results and formulating the recommendations
 
-## 🔍 Ход анализа
-1. Загрузка данных через `pandahouse`
-2. Расчёт общей выборки
-3. Расчёт выборки на каждую группу (при условии сплитования 50/50)
-4. Расчёт CTR для каждого пользователя: `likes / views`
-5. Расчёт мощности t-test для изначальных условий
-6. Расчёт мощности для разных модификаций алгоритма и параметров эксперимента:
-    * Проверка мощности теста для оптимизированного алгоритма: эффект - при просмотре 30 постов и больше
-    * Проверка мощности теста для дольшего срока проведения эксперимента: 2 недели
-    * Расчёт мощности теста на суженой выборке (только те пользователи, на которых будет потенциально оказан эффект)
-7. Формулировка рекомендаций 
+## 📎 Files
+- `monte_carlo_analysis.ipynb` — a Jupyter notebook with the analysis
 
-## 📎 Файлы
-- `monte_carlo_analysis.ipynb` — ноутбук с полным анализом
-
-## 🛠 Воспроизведение
-1. Скопировать `.env.example` из корня репозитория в `.env` и заполнить свои данные
-2. Установить зависимости: `pip install -r requirements.txt`
-3. Запустить Jupyter: `jupyter notebook`
-4. Открыть `monte_carlo_analysis.ipynb` и выполнить все ячейки
+## 🛠 To launch the project on your computer
+1. Copy the `.env.example` file from the root [ctr_ab_test](ctr_ab_test/) repo and fill it in your `.env` file with your data to access the DB
+2. Install the requirements: `pip install -r requirements.txt`
+3. Launch the Jupyter: `jupyter notebook`
+4. Open the `monte_carlo_analysis.ipynb` file and launch the chunks
