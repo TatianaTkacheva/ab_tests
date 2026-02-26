@@ -1,59 +1,60 @@
 # A/B Testing
 
-Добро пожаловать в репозиторий с моими проектами по A/B-тестированию.
-Здесь собраны практические кейсы с данными, статистическими тестами и визуализациями.
+👋 Hello and welcome to a repo with my A/B testing projects.
+Here, I've collected the A/B and A/A test cases from my study projects done within the Analyst Simulator at [Karpov.courses](https://karpov.courses/). This study program involves a series of complex projects that simulate the real-life tasks of a product analyst at a startup developing a mobile app with a news feed and messenger.
 
-## 📊 Проекты
-Представленные здесь проекты былы реализованы в рамках обучения на курсе "Симулятора аналитика" [Karpov.courses](https://karpov.courses/). Данная программа предполагает серию комплексных проектов, которые имитируют реальные задачи продуктового аналитика в стартапе, разрабатывающем мобильное приложение с новостной лентой и мессенджером.
+## 📊 Projects
 
-## 1. Анализ CTR для нового алгоритма рекомендаций в новостной ленте
-В этом проекте я провела анализ AB-теста для нового алгоритма рекомендаций постов в новостной ленте в разрабатываем мобильном приложении.
+## 1. CTR analysis for the new algorithm of posts' recommendation in the news feed
+In this project, I conducted an A/B test analysis for a new algorithm for recommending posts in the news feed in a mobile app we are developing.
 
-Основная метрика — **CTR** (клики/просмотры).
+A key metric — **CTR** (likes/views).
 
-**Что сделано:**
-- Загрузка данных из ClickHouse (pandahouse)
-- Расчёт CTR на пользователя
-- Сравнение групп с помощью z-test, t-test, Mann-Whitney U test, сглаженного CTR, bootstrap, бакетного преобразования
-- Визуализация распределений
+**What has been done:**
+- Downloading the data from a ClickHouse DB (via pandahouse in Python)
+- Calculating the users' CTR
+- Comparing the groups with the help of z-test, t-test, Mann-Whitney U test, smoothed CTR, bootstrap, bucketization
+- Visualization of the distributions
+- Analysis of the resuls and formulation of recommendations
 
-**Ключевые результаты:**
-- обнаружена **бимодальность** распределения CTR в тестовой группе
-После преобразований:
-- CTR в тесте: **20.03%**
-- CTR в контроле: **20.96%**
-- p-value = **0.0000** (статистически значимо)
-- ❌ Тест не успешен, новый алгоритм даже снизил CTR + проблемы с распределением в тестовой группе - возможно, неучтённые факторы и сегменты
+**Key results:**
+- Found a **bimodality** of the CTR distribution in a test group
+After the data transformation (with the use of several approaches):
+- CTR in a test group: **20.03%**
+- CTR in a control group: **20.96%**
+- p-value = **0.0000** (statistically significant)
+- ❌ the test is not successfull, the new algorithm even decreased the CTR + bimodality in the distribution implies potentail problems: uncounted external factors or segment specifics
 
-**[→ Перейти к проекту](ctr_ab_test/)**  
-*Технологии: Python, pandas, numpy, scipy, statsmodels, pandahouse, matplotlib, seaborn*
-
-
-## 2. Monte Carlo A/A Test
-В рамках этого проекта я провела симуляцию A/A тестов для оценки мощности предстоящего теста для нового алгоритма рекомендаций постов в новостной ленте.
-
-Основная метрика — **CTR** (клики/просмотры).
-
-**Что сделано:**
-- Загрузка данных из ClickHouse (pandahouse)
-- Расчёт CTR на пользователя
-- Реализация АА-теста для расчёта мощности метдом Монте-Карло под разные модификации ML-алгоритма и параметров эксперимента 
-- Анализ результатов и рекомендации для дальнейших шагов
-
-**Ключевые результаты:**
-- Анализ показывает мощность ниже конвенциональных 80% при разных модификациях алгоритма, размера выборки и срока проведения эксперимента
-
-**[→ Перейти к проекту](monte_carlo_aa_test/)**  
-*Технологии: Python, pandas, numpy, scipy, statsmodels, pandahouse*
+**[→ To check the project](ctr_ab_test/)**  
+*Stack: Python, pandas, numpy, scipy, statsmodels, pandahouse, matplotlib, seaborn*
 
 
-## 🚀 Запуск
-1. Скопировать `.env.example` в `.env` и заполнить свои данные
-2. Установить зависимости: `pip install -r requirements.txt`
-3. Запустить Jupyter: `jupyter notebook`
+## 2. Monte Carlo A/A test
+In this project, I ran simulated A/A tests to evaluate the power of an upcoming test for a new news feed post recommendation algorithm.
 
-## 📁 Файлы
-- `.gitignore` - список объектов, игнорируемых для загрузки в репозиторий при комитах в git
-- `.env.example` — шаблон для подключения к БД
-- `requirements.txt` — зависимости
+A key metric — **CTR** (likes/views).
+
+**What has been done:**
+- Downloading the data from a ClickHouse DB (via pandahouse in Python)
+- Calculating the users' CTR
+- Simulating A/A tests to calculate the test power for different algorith and experiment modifications
+- Analysis of the results and recommendations for further steps
+
+**Key results:**
+- The analysis shows the potential test power lower than the conventional benchmark of 80% with different parameters of the test (sample size, test period) and algorithm modifications.
+
+**[→ To check the project](monte_carlo_aa_test/)**  
+*Stack: Python, pandas, numpy, scipy, statsmodels, pandahouse*
+
+
+## 🚀 To launch the projects on your computer
+1. Copy the `.env.example` file into your `.env` file and fill it with your data to access the DB
+2. Install the necessary requirements: `pip install -r requirements.txt`
+3. Launch the Jupyter: `jupyter notebook`
+4. Open the necessary notebook and launch the chunks one-by-one
+
+## 📁 Files
+- `.gitignore` - a list of objects ignored for the git uploading (cache files, secrets)
+- `.env.example` — a template to connect with the DB
+- `requirements.txt` — technical requirements
 EOF
