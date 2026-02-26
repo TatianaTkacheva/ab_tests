@@ -49,4 +49,6 @@ Initially, the planned period for the A/B test is 1 week. So, the A/A test is in
 3. Launch the Jupyter: `jupyter notebook`
 4. Open the `monte_carlo_analysis.ipynb` file and launch the chunks
 
-I appreciate any feedback, so if you have thoughts to share, please don't hesitate to contact me. You may find the available channels to connect with me on my [welcome page](https://github.com/TatianaTkacheva) 👈.
+
+
+💡 I appreciate any feedback, so if you have thoughts to share, please don't hesitate to contact me. You may find the available channels to connect with me on my [welcome page](https://github.com/TatianaTkacheva) 👈.
