@@ -57,4 +57,3 @@ A key metric — **CTR** (likes/views).
 - `.gitignore` - a list of objects ignored for the git uploading (cache files, secrets)
 - `.env.example` — a template to connect with the DB
 - `requirements.txt` — technical requirements
-EOF
