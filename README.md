@@ -5,7 +5,7 @@ Here, I've collected the A/B and A/A test cases from my study projects done with
 
 ## 📊 Projects
 
-## 1. CTR analysis for the new algorithm of posts' recommendation in the news feed
+### Project 1. CTR analysis for the new algorithm of posts' recommendation in the news feed
 In this project, I conducted an A/B test analysis for a new algorithm for recommending posts in the news feed in a mobile app we are developing.
 
 A key metric — **CTR** (likes/views).
@@ -29,7 +29,7 @@ After the data transformation (with the use of several approaches):
 *Stack: Python, pandas, numpy, scipy, statsmodels, pandahouse, matplotlib, seaborn*
 
 
-## 2. Monte Carlo A/A test
+### Project 2. Monte Carlo A/A test
 In this project, I ran simulated A/A tests to evaluate the power of an upcoming test for a new news feed post recommendation algorithm.
 
 A key metric — **CTR** (likes/views).
